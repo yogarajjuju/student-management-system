@@ -14,7 +14,7 @@ public class Student {
         this.department=department;
     }
 
-    public int setId(){
+    public int getId(){
         return id;
     }
 
@@ -43,5 +43,15 @@ public class Student {
 
     public void setDepartment(String department) {
         this.department = department;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", department='" + department + '\'' +
+                '}';
     }
 }
