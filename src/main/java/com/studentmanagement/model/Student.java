@@ -1,0 +1,4 @@
+package com.studentmanagement.model;
+
+public class Student {
+}
