@@ -13,10 +13,12 @@ public class Main {
         // Create Students
         Student student1 = new Student(1, "Rahul", 20, "AI&DS");
         Student student2 = new Student(2, "Priya", 21, "IT");
+        Student student3 = new Student(3, "", 21, "IT");
 
         // Add Students
         service.addStudent(student1);
         service.addStudent(student2);
+        service.addStudent(student3);
 
         // Display All Students
         System.out.println("\n===== STUDENTS =====");
