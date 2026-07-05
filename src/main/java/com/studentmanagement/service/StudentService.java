@@ -8,23 +8,36 @@ public class StudentService {
 
     private StudentDAO dao = new StudentDAO();
 
-    public void addStudent(Student student) {
+
+    public void addStudent(Student student){
+        validateStudent(student);
+        dao.addStudent(student);
+    }
+
+    private void validateStudent(Student student) {
 
         if (student.getName().trim().isEmpty()) {
-            System.out.println("Student name cannot be empty.");
-            return;
+            throw new IllegalArgumentException("Student name cannot be empty.");
+
         }
 
         if (student.getAge() < 18 || student.getAge() > 60) {
-            System.out.println("Student age must be between 18 and 60.");
-            return;
+            throw new IllegalArgumentException("Student age must be between 18 and 60.");
+
         }
 
-        dao.addStudent(student);
+
     }
     public List<Student> getAllStudents() {
 
         return dao.getAllStudents();
 
+    }
+    public boolean updateStudent(Student student) {
+        validateStudent(student);
+        return dao.updateStudent(student);
+    }
+    public boolean deleteStudent(int id) {
+        return dao.deleteStudent(id);
     }
 }
