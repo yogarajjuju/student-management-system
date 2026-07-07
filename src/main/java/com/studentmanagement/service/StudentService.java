@@ -6,7 +6,7 @@ import com.studentmanagement.model.Student;
 
 public class StudentService {
 
-    private StudentDAO dao = new StudentDAO();
+    private final StudentDAO dao = new StudentDAO();
 
 
     public void addStudent(Student student){

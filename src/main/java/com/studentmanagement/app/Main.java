@@ -1,5 +1,8 @@
 package com.studentmanagement.app;
 
+import java.util.List;
+import java.util.Scanner;
+
 import com.studentmanagement.model.Student;
 import com.studentmanagement.service.StudentService;
 
@@ -8,54 +11,128 @@ public class Main {
     public static void main(String[] args) {
 
         StudentService service = new StudentService();
+        Scanner scanner = new Scanner(System.in);
 
-        // Create Students
-        Student student1 = new Student(1, "Rahul", 20, "AI&DS");
-        Student student2 = new Student(2, "Priya", 21, "IT");
+        int choice;
 
-        // Add Students
-        service.addStudent(student1);
-        service.addStudent(student2);
+        do {
 
-        // Display Students
-        System.out.println("===== BEFORE UPDATE =====");
+            System.out.println("\n===== Student Management System =====");
+            System.out.println("1. Add Student");
+            System.out.println("2. View Students");
+            System.out.println("3. Update Student");
+            System.out.println("4. Delete Student");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
 
-        for (Student student : service.getAllStudents()) {
-            System.out.println(student);
-        }
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
 
-        // Update Student
-        Student updatedStudent = new Student(2, "Priya Sharma", 22, "CSE");
+            switch (choice) {
 
-        boolean updated = service.updateStudent(updatedStudent);
+                case 1:
 
-        if (updated) {
-            System.out.println("\nStudent updated successfully!");
-        } else {
-            System.out.println("\nStudent not found!");
-        }
+                    try {
 
-        // Display After Update
-        System.out.println("\n===== AFTER UPDATE =====");
+                        System.out.print("Enter ID: ");
+                        int id = scanner.nextInt();
+                        scanner.nextLine();
 
-        for (Student student : service.getAllStudents()) {
-            System.out.println(student);
-        }
+                        System.out.print("Enter Name: ");
+                        String name = scanner.nextLine();
 
-        // Delete Student
-        boolean deleted = service.deleteStudent(1);
+                        System.out.print("Enter Age: ");
+                        int age = scanner.nextInt();
+                        scanner.nextLine();
 
-        if (deleted) {
-            System.out.println("\nStudent deleted successfully!");
-        } else {
-            System.out.println("\nStudent not found!");
-        }
+                        System.out.print("Enter Department: ");
+                        String department = scanner.nextLine();
 
-        // Display After Delete
-        System.out.println("\n===== AFTER DELETE =====");
+                        Student student = new Student(id, name, age, department);
 
-        for (Student student : service.getAllStudents()) {
-            System.out.println(student);
-        }
+                        service.addStudent(student);
+
+                        System.out.println("Student added successfully!");
+
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                    break;
+
+                case 2:
+
+                    List<Student> students = service.getAllStudents();
+
+                    if (students.isEmpty()) {
+                        System.out.println("No students found.");
+                    } else {
+                        System.out.println("\n===== Student List =====");
+                        for (Student student : students) {
+                            System.out.println(student);
+                        }
+                    }
+
+                    break;
+
+                case 3:
+
+                    try {
+
+                        System.out.print("Enter Student ID to Update: ");
+                        int id = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Enter New Name: ");
+                        String name = scanner.nextLine();
+
+                        System.out.print("Enter New Age: ");
+                        int age = scanner.nextInt();
+                        scanner.nextLine();
+
+                        System.out.print("Enter New Department: ");
+                        String department = scanner.nextLine();
+
+                        Student updatedStudent = new Student(id, name, age, department);
+
+                        if (service.updateStudent(updatedStudent)) {
+                            System.out.println("Student updated successfully!");
+                        } else {
+                            System.out.println("Student not found.");
+                        }
+
+                    } catch (IllegalArgumentException e) {
+                        System.out.println(e.getMessage());
+                    }
+
+                    break;
+
+                case 4:
+
+                    System.out.print("Enter Student ID to Delete: ");
+                    int deleteId = scanner.nextInt();
+                    scanner.nextLine();
+
+                    if (service.deleteStudent(deleteId)) {
+                        System.out.println("Student deleted successfully!");
+                    } else {
+                        System.out.println("Student not found.");
+                    }
+
+                    break;
+
+                case 5:
+
+                    System.out.println("Thank you for using Student Management System.");
+                    break;
+
+                default:
+
+                    System.out.println("Invalid choice!");
+            }
+
+        } while (choice != 5);
+
+        scanner.close();
     }
 }
