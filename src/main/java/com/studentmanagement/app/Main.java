@@ -1,10 +1,11 @@
 package com.studentmanagement.app;
 
-import java.util.List;
-import java.util.Scanner;
-
 import com.studentmanagement.model.Student;
 import com.studentmanagement.service.StudentService;
+import com.studentmanagement.util.DatabaseInitializer;
+
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
@@ -17,7 +18,9 @@ public class Main {
 
         do {
 
-            System.out.println("\n===== Student Management System =====");
+            System.out.println("\n=================================");
+            System.out.println(" Student Management System");
+            System.out.println("=================================");
             System.out.println("1. Add Student");
             System.out.println("2. View Students");
             System.out.println("3. Update Student");
@@ -52,10 +55,10 @@ public class Main {
 
                         service.addStudent(student);
 
-                        System.out.println("Student added successfully!");
+                        System.out.println("\n✅ Student added successfully!");
 
                     } catch (IllegalArgumentException e) {
-                        System.out.println(e.getMessage());
+                        System.out.println("❌ " + e.getMessage());
                     }
 
                     break;
@@ -65,9 +68,11 @@ public class Main {
                     List<Student> students = service.getAllStudents();
 
                     if (students.isEmpty()) {
-                        System.out.println("No students found.");
+                        System.out.println("\nNo students found.");
                     } else {
+
                         System.out.println("\n===== Student List =====");
+
                         for (Student student : students) {
                             System.out.println(student);
                         }
@@ -93,16 +98,19 @@ public class Main {
                         System.out.print("Enter New Department: ");
                         String department = scanner.nextLine();
 
-                        Student updatedStudent = new Student(id, name, age, department);
+                        Student updatedStudent =
+                                new Student(id, name, age, department);
 
-                        if (service.updateStudent(updatedStudent)) {
-                            System.out.println("Student updated successfully!");
+                        boolean updated = service.updateStudent(updatedStudent);
+
+                        if (updated) {
+                            System.out.println("\n✅ Student updated successfully!");
                         } else {
-                            System.out.println("Student not found.");
+                            System.out.println("\n❌ Student not found.");
                         }
 
                     } catch (IllegalArgumentException e) {
-                        System.out.println(e.getMessage());
+                        System.out.println("❌ " + e.getMessage());
                     }
 
                     break;
@@ -113,22 +121,24 @@ public class Main {
                     int deleteId = scanner.nextInt();
                     scanner.nextLine();
 
-                    if (service.deleteStudent(deleteId)) {
-                        System.out.println("Student deleted successfully!");
+                    boolean deleted = service.deleteStudent(deleteId);
+
+                    if (deleted) {
+                        System.out.println("\n✅ Student deleted successfully!");
                     } else {
-                        System.out.println("Student not found.");
+                        System.out.println("\n❌ Student not found.");
                     }
 
                     break;
 
                 case 5:
 
-                    System.out.println("Thank you for using Student Management System.");
+                    System.out.println("\nThank you for using Student Management System!");
                     break;
 
                 default:
 
-                    System.out.println("Invalid choice!");
+                    System.out.println("\n❌ Invalid choice!");
             }
 
         } while (choice != 5);
